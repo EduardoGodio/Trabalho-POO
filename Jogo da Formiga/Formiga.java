@@ -2,7 +2,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class Formiga extends Actor
 {
-    int qtd = 0, proj = 0, rot;
+    int qtd = 0, proj = 0;
+    boolean atirar;
     public void act()
     {
         move(3);
@@ -16,19 +17,31 @@ public class Formiga extends Actor
           comerCupcake();  
         }
         atirarProjetil();
+        getWorld().showText("Cupcake: " + qtd, 110, 30);
+        if(proj >= 5){
+            getWorld().showText("Projetil ("+ proj +"): Pronto", 110, 60);
+        } else{
+            getWorld().showText("Projetil ("+ proj +"): Preparando", 110, 60);
+        }
     }
     public void atirarProjetil(){
-        if(Greenfoot.isKeyDown("space")){
+        if(Greenfoot.isKeyDown("space") && proj >= 5 && atirar == true){
             Projetil p = new Projetil();
             getWorld().addObject(p, getX(), getY());
             p.setRotation(getRotation());
+            proj -= 5;
+            atirar = false;
+        } else if(!Greenfoot.isKeyDown("space")){
+            atirar = true;
         }
     }
     public void comerCupcake(){
         removeTouching(Cupcake.class);
         qtd++;
         proj++;
-        getWorld().showText("Cupcakes: " + qtd, 100, 30);
+        if(proj == 6){
+            proj--;
+        }
         double x = Math.random() * 600;
         double y = Math.random() * 400;
         int cupcakex = (int)x;
@@ -36,11 +49,6 @@ public class Formiga extends Actor
         getWorld().addObject(new Cupcake(), cupcakex, cupcakey);
         if(qtd == 1 || qtd % 5 == 0){
             criarSapo();
-        }
-        if(proj % 5 == 0){
-            getWorld().showText("Projetil: Pronto", 100, 60);
-        } else{
-            getWorld().showText("Projetil: Preparando", 100, 60);
         }
         }
     public void criarSapo(){
