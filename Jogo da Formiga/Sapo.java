@@ -1,24 +1,41 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.Random;
 
-/**
- * Write a description of class Sapo here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Sapo extends Actor
 {
-    /**
-     * Act - do whatever the Sapo wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    int virarSapo, andarSapo;
     public void act()
     {
         if(isTouching(Formiga.class)){
             comerFormiga();
         }
-        turn(3);
-        move(3);
+        if(Greenfoot.getRandomNumber(12) <= 3){
+            andarSapo();
+            turn(virarSapo);
+            move(andarSapo);
+        } else if(Greenfoot.getRandomNumber(12) <= 6){
+            andarSapo();
+            turn(virarSapo);
+            move(andarSapo);
+        } else if(Greenfoot.getRandomNumber(12) <= 6){
+            andarSapo();
+            turn(virarSapo);
+            move(andarSapo);
+        } else{
+            andarSapo();
+            turn(virarSapo);
+            move(andarSapo);
+        }
+        if(isTouching(Projetil.class)){
+            getWorld().removeObject(this);
+        }
+    }
+    public void andarSapo(){
+        Random random = new Random();
+        double virar = random.nextInt(4) + 2;
+        double andar = random.nextInt(4) + 2;
+        virarSapo = (int)virar;
+        andarSapo = (int)andar;
     }
     public void removerTudo() {
         java.util.List<Actor> atoresNoMundo = getWorld().getObjects(Actor.class);
